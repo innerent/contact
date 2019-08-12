@@ -1,0 +1,29 @@
+{
+    "name": "innerent/contact",
+    "description": "Contact plugin package for Innerent ecosystem",
+    "authors": [
+        {
+            "name": "Marcelo Barros da Silva",
+            "email": "maxcelos@outlook.com"
+        }
+    ],
+    "require": {
+        "dyrynda/laravel-efficient-uuid": "^2.3",
+        "dyrynda/laravel-model-uuid": "^4.1"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Innerent\\Contact\\Providers\\ContactServiceProvider"
+            ],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Innerent\\Contact\\": ""
+        }
+    }
+}

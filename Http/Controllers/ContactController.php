@@ -49,6 +49,7 @@ class ContactController extends Controller
 
         return response()->json($contact->toArray(), 200);
     }
+
     public function destroy($contactableType, $contactableId, $id)
     {
         $contactable = $this->contactService->instantiate($contactableType, $contactableId);

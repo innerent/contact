@@ -12,7 +12,7 @@ $factory->define(\Innerent\Contact\Entities\Address::class, function (Faker $fak
         'zip'           => $faker->randomNumber() % 2 == 0 ? $faker->randomNumber(8) : null,
         'city'          => $faker->randomNumber() % 2 == 0 ? $faker->city : null,
         'county'        => $faker->randomNumber() % 2 == 0 ? $faker->domainWord : null,
-        'state'         => $faker->randomNumber() % 2 == 0 ? strtoupper($faker->randomLetter . $faker->randomLetter) : null,
+        'state'         => $faker->randomNumber() % 2 == 0 ? strtoupper($faker->randomLetter.$faker->randomLetter) : null,
         'country'       => $faker->randomNumber() % 2 == 0 ? $faker->country : null,
         'description'   => $faker->randomNumber() % 2 == 0 ? $faker->sentence(3) : null,
     ];

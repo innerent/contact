@@ -15,12 +15,19 @@ class ContactTest extends TestCase
     use DatabaseTransactions;
 
     private $authUser;
+    private $contact;
 
     public function setUp(): void
     {
         parent::setUp();
 
         $this->authUser = factory(User::class)->create();
+
+        $this->contact = $this->authUser->contacts()->create(factory(Contact::class)->make()->toArray());
+
+        $this->contact->emails()->create(factory(Email::class)->make()->toArray());
+        $this->contact->phones()->create(factory(Phone::class)->make()->toArray());
+        $this->contact->addresses()->create(factory(Address::class)->make()->toArray());
     }
 
     public function testCreateContact()
@@ -40,13 +47,7 @@ class ContactTest extends TestCase
 
     public function testGetContact()
     {
-        $contact = $this->authUser->contacts()->create(factory(Contact::class)->make()->toArray());
-
-        $contact->emails()->create(factory(Email::class)->make()->toArray());
-        $contact->phones()->create(factory(Phone::class)->make()->toArray());
-        $contact->addresses()->create(factory(Address::class)->make()->toArray());
-
-        $this->actingAs($this->authUser, 'api')->json('get', env('INNERENT_API_PREFIX', 'v1').'/users/'.$this->authUser->uuid.'/contacts/'.$contact->id)->assertStatus(200);
+        $this->actingAs($this->authUser, 'api')->json('get', env('INNERENT_API_PREFIX', 'v1').'/users/'.$this->authUser->uuid.'/contacts/'.$this->contact->id)->assertStatus(200);
     }
 
     public function testListContacts()
@@ -64,27 +65,14 @@ class ContactTest extends TestCase
 
     public function testDeleteContact()
     {
-        $contact = $this->authUser->contacts()->create(factory(Contact::class)->make()->toArray());
+        $this->actingAs($this->authUser, 'api')->json('delete', env('INNERENT_API_PREFIX', 'v1').'/users/'.$this->authUser->uuid.'/contacts/'.$this->contact->id)->assertStatus(204);
 
-        $contact->emails()->create(factory(Email::class)->make()->toArray());
-        $contact->phones()->create(factory(Phone::class)->make()->toArray());
-        $contact->addresses()->create(factory(Address::class)->make()->toArray());
-
-        $this->actingAs($this->authUser, 'api')->json('delete', env('INNERENT_API_PREFIX', 'v1').'/users/'.$this->authUser->uuid.'/contacts/'.$contact->id)->assertStatus(204);
-
-        $this->actingAs($this->authUser, 'api')->json('get', env('INNERENT_API_PREFIX', 'v1').'/users/'.$this->authUser->uuid.'/contacts/'.$contact->id)->assertStatus(404);
+        $this->actingAs($this->authUser, 'api')->json('get', env('INNERENT_API_PREFIX', 'v1').'/users/'.$this->authUser->uuid.'/contacts/'.$this->contact->id)->assertStatus(404);
     }
 
     public function testUpdateContact()
     {
-        $contact = $this->authUser->contacts()->create(factory(Contact::class)->make()->toArray());
-
-        $contact->emails()->create(factory(Email::class)->make()->toArray());
-        $contact->phones()->create(factory(Phone::class)->make()->toArray());
-        $contact->addresses()->create(factory(Address::class)->make()->toArray());
-        $contact->addresses()->create(factory(Address::class)->make()->toArray());
-
-        $data = $contact->load('emails', 'phones', 'addresses')->toArray();
+        $data = $this->contact->load('emails', 'phones', 'addresses')->toArray();
 
         $data['name'] = 'My Edited Contact';
 
@@ -99,7 +87,7 @@ class ContactTest extends TestCase
             $data['phones'][0][$key] = $item;
         }
 
-        $response = $this->actingAs($this->authUser, 'api')->json('put', env('INNERENT_API_PREFIX', 'v1').'/users/'.$this->authUser->uuid.'/contacts/'.$contact->id, $data);
+        $response = $this->actingAs($this->authUser, 'api')->json('put', env('INNERENT_API_PREFIX', 'v1').'/users/'.$this->authUser->uuid.'/contacts/'.$this->contact->id, $data);
 
         $response->assertStatus(200);
     }

@@ -14,7 +14,7 @@ class ContactService
 {
     protected $repo;
 
-    function __construct(ContactRepository $repo)
+    public function __construct(ContactRepository $repo)
     {
         $this->repo = $repo;
     }
@@ -84,15 +84,17 @@ class ContactService
 
     public function instantiate($type, $id)
     {
-        $contactable = new Relation::$morphMap[$type];
+        $contactable = new Relation::$morphMap[$type]();
 
-        if (in_array(GeneratesUuid::class, class_uses($contactable)))
+        if (in_array(GeneratesUuid::class, class_uses($contactable))) {
             $contactable = $contactable->whereUuid($id)->get()->first();
-        else
+        } else {
             $contactable = $contactable->find($id);
+        }
 
-        if (!$contactable)
+        if (!$contactable) {
             abort(404);
+        }
 
         return $contactable;
     }

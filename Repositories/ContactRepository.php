@@ -33,8 +33,9 @@ class ContactRepository implements ContactInterface
     {
         $this->contact = $contactable->contacts()->find($id);
 
-        if (!$this->contact instanceof Contact)
+        if (!$this->contact instanceof Contact) {
             abort(404);
+        }
 
         return $this;
     }
@@ -49,7 +50,8 @@ class ContactRepository implements ContactInterface
         return $this;
     }
 
-    public function address(Address $address) {
+    public function address(Address $address)
+    {
         $this->contact->addresses()->updateOrCreate(
             ['id' => $address->id],
             $address->toArray()
@@ -58,7 +60,8 @@ class ContactRepository implements ContactInterface
         return $this;
     }
 
-    public function phone(Phone $phone) {
+    public function phone(Phone $phone)
+    {
         $this->contact->phones()->updateOrCreate(
             ['id' => $phone->id],
             $phone->toArray()
@@ -71,8 +74,9 @@ class ContactRepository implements ContactInterface
     {
         $this->contact = $contactable->contacts()->find($id);
 
-        if (!$this->contact)
+        if (!$this->contact) {
             abort(404);
+        }
 
         $this->contact = $this->contact->load('emails', 'addresses', 'phones');
 

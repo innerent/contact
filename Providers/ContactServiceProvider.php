@@ -2,10 +2,10 @@
 
 namespace Innerent\Contact\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
-use Innerent\Contact\Repositories\ContactRepository;
+use Illuminate\Support\ServiceProvider;
 use Innerent\Contact\Contracts\Contact as ContactContract;
+use Innerent\Contact\Repositories\ContactRepository;
 
 class ContactServiceProvider extends ServiceProvider
 {
@@ -18,7 +18,7 @@ class ContactServiceProvider extends ServiceProvider
     {
         $this->registerConfig();
         $this->registerFactories();
-        $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../Database/Migrations');
     }
 
     /**
@@ -57,7 +57,7 @@ class ContactServiceProvider extends ServiceProvider
     public function registerFactories()
     {
         if (! app()->environment('production')) {
-            app(Factory::class)->load(__DIR__ . '/../Database/factories');
+            app(Factory::class)->load(__DIR__.'/../Database/factories');
         }
     }
 

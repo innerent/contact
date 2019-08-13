@@ -12,7 +12,7 @@ class Contact extends Model
     protected $fillable = ['name', 'type'];
 
     protected $hidden = [
-        'contactable_id'
+        'contactable_id',
     ];
 
     public function contactable()

@@ -8,8 +8,8 @@
         }
     ],
     "require": {
-        "dyrynda/laravel-efficient-uuid": "^2.3",
-        "dyrynda/laravel-model-uuid": "^4.1"
+        "dyrynda/laravel-efficient-uuid": "^3.0",
+        "dyrynda/laravel-model-uuid": "^5.0"
     },
     "extra": {
         "laravel": {

@@ -33,7 +33,7 @@ class ContactRepository implements ContactInterface
     {
         $this->contact = $contactable->contacts()->find($id);
 
-        if (!$this->contact instanceof Contact) {
+        if (! $this->contact instanceof Contact) {
             abort(404);
         }
 
@@ -74,7 +74,7 @@ class ContactRepository implements ContactInterface
     {
         $this->contact = $contactable->contacts()->find($id);
 
-        if (!$this->contact) {
+        if (! $this->contact) {
             abort(404);
         }
 
